@@ -1,0 +1,205 @@
+﻿ <Window x:Class="fun.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:fun"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1050" Width="1980">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <!--<Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Blue"></Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard BeginTime="00:00:00" 
+                        RepeatBehavior="Forever" 
+                                    AutoReverse="True"
+                        Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)">
+                                <ColorAnimation From="Black" To="Red" Duration="0:0:1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>-->
+    <!--ShowGridLines="True"-->
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35 px"></RowDefinition>
+            <RowDefinition Height="35 px"></RowDefinition>
+            <RowDefinition Height="35px"></RowDefinition>
+            <RowDefinition Height="70px"></RowDefinition>
+            <RowDefinition Height="70px"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300px"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" >
+            <MenuItem Header="    File    " Height="35" >
+                <MenuItem Header="example"  Click="EX_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <TextBlock Text="Enter a function:" Height="35" Width="100" Margin="7"></TextBlock>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <TextBlock Text="Enter a num:" Height="35" Width="100" Margin="7"></TextBlock>
+            </Grid>
+            <!--<TextBlock Text="Enter a function:" Height="35" Width="100" Margin="7"></TextBlock>-->
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <TextBox x:Name="Func" Background="BlanchedAlmond"  Margin="7">
+                        <TextBox.ToolTip >
+                            <ToolTip Content="Функція">
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    
+                    <!--<Button  x:Name="Add"  Background="GreenYellow" Content="Add" Click="Add_Click"></Button>-->
+                </Grid>
+                <Grid Grid.Column="1">
+                    <TextBox x:Name="Num" Background="BlanchedAlmond"  Margin="7">
+                        <TextBox.ToolTip >
+                            <ToolTip Content="Кількість ділень">
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <!--<Button  x:Name="Delete"  Background="OrangeRed" Content="Delete" Click="Del_Click"></Button>-->
+                </Grid>
+            </Grid>
+            
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" >
+                    <TextBox x:Name="toch" Background="BlanchedAlmond"   Margin="7" RenderTransformOrigin="0.515,-1.374">
+                        <TextBox.ToolTip >
+                            <ToolTip Content="Функція уточнення">
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    
+                </Grid>
+                <!--<Grid Grid.Row="0" Grid.Column="1" >
+                    <TextBlock Text="b:" Height="35" Width="10" Margin="10"></TextBlock>
+                </Grid>-->
+                <Grid Grid.Row="1" Grid.Column="0" >
+                    <TextBox x:Name="TA" Background="BlanchedAlmond"  Margin="7">
+                        <TextBox.ToolTip >
+                            <ToolTip Content="початок коордитан(А)">
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="1" >
+                    <TextBox x:Name="TB" Background="BlanchedAlmond"  Margin="7">
+                        <TextBox.ToolTip >
+                            <ToolTip Content="Кінець координат (В)">
+                            </ToolTip>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                </Grid>
+                
+            </Grid>
+            <!--<Button  x:Name="N"  Background="LightBlue" Content="Сalculate" Click="PUPH_Click"></Button>-->
+        </Grid>
+        <Grid Grid.Row=" 4" Grid.Column="0">
+            <Button  x:Name="N"  Background="LightBlue" Content="Сalculate" Click="PUPH_Click"></Button>
+
+            <!--<Grid ShowGridLines="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    --><!--<Button  x:Name="Add"  Background="GreenYellow" Content="Add" Click="Add_Click"></Button>--><!--
+                </Grid>
+                <Grid Grid.Column="1">
+                    --><!--<Button  x:Name="Delete"  Background="OrangeRed" Content="Delete" Click="Del_Click"></Button>--><!--
+                </Grid>
+            </Grid>-->
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="0"  Background="AliceBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="12*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<DataGrid x:Name="Data" AutoGenerateColumns="False" CanUserAddRows="True" ItemsSource="{Binding collection}" Grid.ColumnSpan="2" Margin="0,0,0,-0.2" RenderTransformOrigin="0.436,0.498">
+                <DataGrid.Columns >
+                    <DataGridTextColumn Header="X" Binding="{Binding X}" Width="*" >
+
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Y" Binding="{Binding Y}" Width="*"  />
+                </DataGrid.Columns>
+            </DataGrid>-->
+
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="5"   >
+            <!--<oxy:Plot Title="{Binding Title}">
+                <oxy:Plot.Series>
+                    <oxy:LineSeries ItemsSource="{Binding Points}" Color="Blue" />
+                </oxy:Plot.Series>
+            </oxy:Plot>-->
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="4" Background="Gray"  Margin="0,0,0,-0.2"  >
+            <Grid Grid.Row="5" Grid.Column="0" Grid.RowSpan="5"     >
+                <DataGrid  ColumnWidth="*"  x:Name="vidp" >
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Height" Value="{x:Static sys:Double.NaN}"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+
+                </DataGrid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="0" Grid.RowSpan="5"     >
+            <DataGrid ColumnWidth="*" x:Name="Tabl" >
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Height" Value="{x:Static sys:Double.NaN}"/>
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="2" >
+            <lvc:CartesianChart Grid.Row="2" Series="{Binding SeriesCollection}" LegendLocation="Right"></lvc:CartesianChart>
+        </Grid>
+    </Grid>
+</Window>
