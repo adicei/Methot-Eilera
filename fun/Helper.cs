@@ -12,9 +12,11 @@ namespace Jarvis
     class Helper
     {
         static Parser P = new Parser();
+        //static Parser E = new Parser();
         static public void addvar()
         {
             P.AddVariable("Pi",Math.PI);
+            P.AddVariable("e", Math.Exp(1));
         }
         public static double Function_from_string(double current_x, string formula)
         {

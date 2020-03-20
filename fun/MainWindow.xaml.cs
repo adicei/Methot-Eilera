@@ -35,7 +35,7 @@ namespace fun
         public MainWindow()
         {
             InitializeComponent();
-
+            Helper.addvar();
 
         }
         //public SeriesCollection SeriesCollection { get; set; }
@@ -59,149 +59,318 @@ namespace fun
         }
         private void PUPH_Click(object sender, RoutedEventArgs e)
         {
-            // string F = Func.Text;
-            double a = Convert.ToDouble(TA.Text);
-            double b = Convert.ToDouble(TB.Text);
-            int n = Convert.ToInt32(Num.Text);
-            double[] x = new double[n];
-            double[] y = new double[n];
-            double[] dy = new double[n];
-            double[] yt = new double[n];
-            double[] ye = new double[n];
-
-            double h = (b - a) / (n - 1);
-            x[0] = a;
-            y[0] = a;
-            for (int i = 1; i < n; i++)
+            if (a1.IsChecked == true)
             {
-                x[i] = x[i - 1] + h;
-                //y[i] = f(x[i]);
+                // string F = Func.Text;
+                double a = Convert.ToDouble(TA.Text);
+                double b = Convert.ToDouble(TB.Text);
+                int n = Convert.ToInt32(Num.Text);
+                double[] x = new double[n];
+                double[] y = new double[n];
+                double[] dy = new double[n];
+                double[] yt = new double[n];
+                double[] ye = new double[n];
 
-            }
-            //y[0] = a;
-
-            List<tabl> tabls = new List<tabl>(n);
-            //tabls.Add(new tabl(x[0], y[0] - h * f(x[i - 1], y[i - 1]), h * f(x[i - 1], y[i - 1]), ft(x[i]), ft(x[i] - y[0] - h * f(x[i - 1], y[i - 1]))
-            for (int i = 0; i < n; i++)
-            {
-                if (i == 0)
+                double h = (b - a) / (n - 1);
+                x[0] = a;
+                y[0] = a;
+                for (int i = 1; i < n; i++)
                 {
-                    dy[i] = a;
-                    y[i] = a;
-                    yt[i] = a;
-                    ye[i] = a;
+                    x[i] = x[i - 1] + h;
+                    //y[i] = f(x[i]);
 
                 }
-                else
+                //y[0] = a;
+
+                List<tabl> tabls = new List<tabl>(n);
+                //tabls.Add(new tabl(x[0], y[0] - h * f(x[i - 1], y[i - 1]), h * f(x[i - 1], y[i - 1]), ft(x[i]), ft(x[i] - y[0] - h * f(x[i - 1], y[i - 1]))
+                for (int i = 0; i < n; i++)
                 {
-                    dy[i] = h * f(x[i - 1], y[i - 1]);
-                    y[i] = y[i - 1] + dy[i];
-                    yt[i] = ft(x[i]);
-                    ye[i] = yt[i] - y[i];
+                    if (i == 0)
+                    {
+                        dy[i] = a;
+                        y[i] = a;
+                        yt[i] = a;
+                        ye[i] = a;
+
+                    }
+                    else
+                    {
+                        dy[i] = h * f(x[i - 1], y[i - 1]);
+                        y[i] = y[i - 1] + dy[i];
+                        yt[i] = ft(x[i]);
+                        ye[i] = yt[i] - y[i];
+                    }
+
+
+
+                    tabls.Add(new tabl(x[i], y[i], dy[i], yt[i], ye[i]));
                 }
+                List<XY> FU = new List<XY>(n);
+                for (int i = 0; i < n; i++)
+                {
+                    FU.Add(new XY(x[i], y[i]));
+                }
+                Tabl.ItemsSource = FU;
+                vidp.ItemsSource = tabls;
 
 
+                //-------------------------------график---------------
+                DataContext = null;
+                MyValues = new ChartValues<ObservablePoint>();
+                MyValuesT = new ChartValues<ObservablePoint>();
+                for (int i = 0; i < n; i++)
+                {
+                    MyValues.Add(new ObservablePoint(x[i], y[i]));
+                    MyValuesT.Add(new ObservablePoint(x[i], yt[i]));
+                }
+                var lineSeries = new LineSeries
+                {
+                    Values = MyValues,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent,
+                    Title = "шукана",
+                    //PointGeometrySize = 10,
+                    //PointGeometry = DefaultGeometries.Circle,
+                    DataLabels = false,
 
-                tabls.Add(new tabl(x[i], y[i], dy[i], yt[i], ye[i]));
+                };
+                var lineSeries2 = new LineSeries
+                {
+                    Values = MyValuesT,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent,
+                    Title = "уточнена",
+
+                    //PointGeometrySize = 10,
+                    //PointGeometry = DefaultGeometries.Circle,
+                    DataLabels = false,
+
+                };
+                SeriesCollection = new SeriesCollection { lineSeries, lineSeries2 };
+                DataContext = this;
             }
-            List<XY> FU = new List<XY>(n);
-            for (int i = 0; i < n; i++)
+            else if (a2.IsChecked == true)
             {
-                FU.Add(new XY(x[i], y[i]));
+                // string F = Func.Text;
+                double a = Convert.ToDouble(TA.Text);
+                double b = Convert.ToDouble(TB.Text);
+                int n = Convert.ToInt32(Num.Text);
+                double[] x = new double[n];
+                double[] y = new double[n];
+                double[] yp = new double[n];
+
+                double[] dy = new double[n];
+                double[] yt = new double[n];
+                double[] ye = new double[n];
+
+                double h = (b - a) / (n - 1);
+                x[0] = a;
+                y[0] = a;
+                for (int i = 1; i < n; i++)
+                {
+                    x[i] = x[i - 1] + h;
+                    //y[i] = f(x[i]);
+                    
+                }
+                //y[0] = a;
+
+                List<tabl> tabls = new List<tabl>(n);
+                //tabls.Add(new tabl(x[0], y[0] - h * f(x[i - 1], y[i - 1]), h * f(x[i - 1], y[i - 1]), ft(x[i]), ft(x[i] - y[0] - h * f(x[i - 1], y[i - 1]))
+                for (int i = 0; i < n; i++)
+                {
+                    if (i == 0)
+                    {
+                        dy[i] = a;
+                        y[i] = a;
+                        yt[i] = a;
+                        ye[i] = a;
+                        yp[i] = a;
+
+
+                    }
+                    else
+                    {
+                        dy[i] = h * f(x[i - 1], y[i - 1]);
+                        y[i] = y[i - 1] + dy[i];
+                        yp[i] = y[i - 1] + h * f(x[i], y[i]);
+                        y[i] = yp[i];
+                        yt[i] = ft(x[i]);
+                        ye[i] = yt[i] - y[i];
+                    }
+
+
+
+                    tabls.Add(new tabl(x[i], y[i], dy[i], yt[i], ye[i]));
+                }
+                List<XY> FU = new List<XY>(n);
+                for (int i = 0; i < n; i++)
+                {
+                    FU.Add(new XY(x[i], y[i]));
+                }
+                Tabl.ItemsSource = FU;
+                vidp.ItemsSource = tabls;
+
+
+                //-------------------------------график---------------
+                DataContext = null;
+                MyValues = new ChartValues<ObservablePoint>();
+                MyValuesT = new ChartValues<ObservablePoint>();
+                for (int i = 0; i < n; i++)
+                {
+                    MyValues.Add(new ObservablePoint(x[i], y[i]));
+                    MyValuesT.Add(new ObservablePoint(x[i], yt[i]));
+                }
+                var lineSeries = new LineSeries
+                {
+                    Values = MyValues,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent,
+                    Title = "шукана",
+                    //PointGeometrySize = 10,
+                    //PointGeometry = DefaultGeometries.Circle,
+                    DataLabels = false,
+
+                };
+                var lineSeries2 = new LineSeries
+                {
+                    Values = MyValuesT,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent,
+                    Title = "уточнена",
+
+                    //PointGeometrySize = 10,
+                    //PointGeometry = DefaultGeometries.Circle,
+                    DataLabels = false,
+
+                };
+                SeriesCollection = new SeriesCollection { lineSeries, lineSeries2 };
+                DataContext = this;
             }
-            Tabl.ItemsSource = FU;
-            vidp.ItemsSource = tabls;
-
-
-            //-------------------------------график---------------
-            DataContext = null;
-            MyValues1 = new ChartValues<ObservablePoint>();
-            MyValues2 = new ChartValues<ObservablePoint>();
-
-            for (int i = 0; i < n; i++)
+            else
             {
-                MyValues1.Add(new ObservablePoint(x[i] , y[i]));
-                MyValues2.Add(new ObservablePoint(x[i], y[i]+1));
+                double a = Convert.ToDouble(TA.Text);
+                double b = Convert.ToDouble(TB.Text);
+                int n = Convert.ToInt32(Num.Text);
+                double[] x = new double[n];
+                double[] y = new double[n];
+                double[] yp = new double[n];
+                double[] dy = new double[n];
+                double[] yt = new double[n];
+                double[] ye = new double[n];
 
+                double h = (b - a) / (n - 1);
+                x[0] = a;
+                y[0] = a;
+                for (int i = 1; i < n; i++)
+                {
+                    x[i] = x[i - 1] + h;
+                    //y[i] = f(x[i]);
+
+                }
+                //y[0] = a;
+
+                List<tabl> tabls = new List<tabl>(n);
+                //tabls.Add(new tabl(x[0], y[0] - h * f(x[i - 1], y[i - 1]), h * f(x[i - 1], y[i - 1]), ft(x[i]), ft(x[i] - y[0] - h * f(x[i - 1], y[i - 1]))
+                for (int i = 0; i < n; i++)
+                {
+                    if (i == 0)
+                    {
+                        dy[i] = a;
+                        y[i] = a;
+                        yt[i] = a;
+                        ye[i] = a;
+                        yt[i] = a;
+
+                    }
+                    else
+                    {
+                        dy[i] = h * f(x[i - 1], y[i - 1]);
+                        y[i] = y[i - 1] + dy[i];
+                        yp[i] = y[i - 1] + (h / 2) * (f(x[i - 1], y[i - 1]) + f(x[i], y[i]));
+                        y[i] = yp[i];
+                        yt[i] = ft(x[i]);
+                        ye[i] = yt[i] - y[i];
+                    }
+
+
+
+                    tabls.Add(new tabl(x[i], y[i], dy[i], yt[i], ye[i]));
+                }
+                List<XY> FU = new List<XY>(n);
+                for (int i = 0; i < n; i++)
+                {
+                    FU.Add(new XY(x[i], y[i]));
+                }
+                Tabl.ItemsSource = FU;
+                vidp.ItemsSource = tabls;
+                DataContext = null;
+                MyValues = new ChartValues<ObservablePoint>();
+                MyValuesT = new ChartValues<ObservablePoint>();
+                for (int i = 0; i < n; i++)
+                {
+                    MyValues.Add(new ObservablePoint(x[i], y[i]));
+                    MyValuesT.Add(new ObservablePoint(x[i], yt[i]));
+                }
+                var lineSeries = new LineSeries
+                {
+                    Values = MyValues,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent,
+                    Title = "шукана",
+                    //PointGeometrySize = 10,
+                    //PointGeometry = DefaultGeometries.Circle,
+                    DataLabels = false,
+
+                };
+                var lineSeries2 = new LineSeries
+                {
+                    Values = MyValuesT,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent,
+                    Title = "уточнена",
+
+                    //PointGeometrySize = 10,
+                    //PointGeometry = DefaultGeometries.Circle,
+                    DataLabels = false,
+
+                };
+
+                SeriesCollection = new SeriesCollection { lineSeries, lineSeries2 };
+                DataContext = this;
             }
-            var lineSeries1 = new LineSeries
-            {
-                Values = MyValues1,
-                StrokeThickness = 2,
-                //Fill = Brushes.Transparent,
-                //PointGeometrySize = 1,
-                PointGeometry = null,
-                DataLabels = true
-            };
-            var lineSeries2 = new LineSeries
-            {
-                Values = MyValues1,
-                StrokeThickness = 2,
-                //Fill = Brushes.Transparent,
-                //PointGeometrySize = 1,
-                PointGeometry = null,
-                DataLabels = true
-            };
-            SeriesCollection = new SeriesCollection { lineSeries1, lineSeries2};
-            DataContext = this;
-            //Series = new SeriesCollection
-            //{
 
-            //}
-            //var serie = new LineSeries()
-            //{
-            //    PointGeometrySize = 10,
-            //    Title = "line",
-            //    DataLabels = true
-
-
-            //};
-            //serie.Values = new ChartValues<ObservablePoint>();
-
-            //for (int i = 0; i < n; i++)
-            //{
-            //    serie.Values.Add(new ObservablePoint(x[i], y[i])); 
-            //}
-            //chart = new LiveCharts.Wpf.CartesianChart();
-            //chart.Series.Add(serie);
-            ////kek = new SeriesCollection(serie);
-            //DataContext = kek;
-            ////this
-            //for (int i = 0; i < n; i++)
-            //{
-            //    kek.Add(new ObservablePoint(x[i],y[i]));
-            //}
-            //DataContext = this;
         }
-        public ChartValues<ObservablePoint> MyValues1 { get; set; }
-        public ChartValues<ObservablePoint> MyValues2 { get; set; }
+        public ChartValues<ObservablePoint> MyValues { get; set; }
+        public ChartValues<ObservablePoint> MyValuesT { get; private set; }
 
         public SeriesCollection SeriesCollection { get; set; }
         //public ChartValues<ObservablePoint> kek { get; set; }
         //public SeriesCollection kek { get; set; }
-
+           // CartesianChart_SizeChanged
         public double f(double x, double y)
     {
         string res = Convert.ToString(Math.Round((float)Helper.Function_from_string(x, y, Func.Text), 5));
         return Convert.ToDouble(res);
 
     }
-        private void ListBox_OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            var item = ItemsControl.ContainerFromElement(ListBox, (DependencyObject)e.OriginalSource) as ListBoxItem;
-            if (item == null) return;
-
-            var series = (StackedAreaSeries)item.Content;
-            series.Visibility = series.Visibility == Visibility.Visible
-                ? Visibility.Hidden
-                : Visibility.Visible;
+            RadioButton pressed = (RadioButton)sender;
+            MessageBox.Show(pressed.Content.ToString());
         }
+
         public double ft(double x)
     {
         string res = Convert.ToString(Math.Round((float)Helper.Function_from_string(x, toch.Text), 5));
         return Convert.ToDouble(res);
     }
-}
+
+        private void CartesianChart_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
+    }
     public class XY
     {
         public XY(double X,double Y)
